@@ -1,5 +1,7 @@
 
-##  Steps which are automated:
+##  Cloudbees UI Automation
+
+This 'cloudbeesUiAutomationAssignment' repo contains the source code to automate and validate the following steps:
     Open the application 'https://www.cloudbees.com/'
     Click the link Products on top > Click CloudBees CD/RO under Other Products
     Verify that Cost Savings has a value of $2m
