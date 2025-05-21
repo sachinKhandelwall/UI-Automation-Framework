@@ -1,4 +1,5 @@
 package base;
+import io.qameta.allure.Allure;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -45,6 +46,8 @@ public class BaseTest {
 
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
         driver.manage().window().maximize();
+
+        Allure.step("Open the cloudeees web application");
         driver.get(cloudbeesUrl);
 
         homePage = new HomePage(driver);
@@ -55,6 +58,7 @@ public class BaseTest {
     @AfterClass
     public void teardown() {
         if (driver != null) {
+            Allure.step("Closing the browser");
             driver.quit();
         }
     }

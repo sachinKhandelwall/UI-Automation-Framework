@@ -43,7 +43,7 @@ public class DocumentationPage {
     }
 
 
-    public void clickSearchBox() {
+    public void clickAllCloudbeesResourcesSearchBox() {
         util.click(searchAllCloudbeesResources);
     }
 
