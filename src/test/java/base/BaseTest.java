@@ -52,8 +52,8 @@ public class BaseTest {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
         driver.manage().window().maximize();
 
-        LogUtils.info("Open the cloudeees web application");
-        Allure.step("Open the cloudeees web application");
+        LogUtils.info("Open the cloudbees web application");
+        Allure.step("Open the cloudbees web application");
         driver.get(cloudbeesUrl);
 
         homePage = new HomePage(driver);
