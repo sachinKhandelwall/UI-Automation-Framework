@@ -14,7 +14,7 @@ public class PropertyUtils {
             FileInputStream fis = new FileInputStream("src/test/resources/browser.properties");
             properties.load(fis);
         } catch (IOException e) {
-            System.out.println("Could not load config.properties: " + e.getMessage());
+            LogUtils.error("Could not load config.properties: " + e.getMessage());
         }
     }
 

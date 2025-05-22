@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.ElementUtil;
+import utils.LogUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -51,7 +52,7 @@ public class DocumentationPage {
         try {
             return driver.findElement(By.tagName("body")).getAttribute("class").contains("modal-open");
         } catch (Exception e) {
-            System.out.println("Failed to verify modal open state: " + e.getMessage());
+            LogUtils.error("Failed to verify modal open state: " + e.getMessage());
             return false;
         }
     }
@@ -65,20 +66,16 @@ public class DocumentationPage {
         try {
              paginationItems = util.waitForElementsVisible(paginationElements);
             if (paginationItems.size() > 1) {
-                System.out.println("Pagination exists with " + paginationItems.size() + " pages.");
+                LogUtils.info("Pagination exists with " + paginationItems.size() + " pages.");
                 return true;
             } else {
-                System.out.println("Pagination not found or only one page exists.");
+                LogUtils.warn("Pagination not found or only one page exists.");
                 return false;
             }
         } catch (Exception e) {
-            System.out.println("Error while checking pagination: " + e.getMessage());
+            LogUtils.error("Error while checking pagination: " + e.getMessage());
             return false;
         }
     }
 
-
-    public String getCurrentUrl() {
-        return driver.getCurrentUrl();
-    }
 }

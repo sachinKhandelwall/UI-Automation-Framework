@@ -20,7 +20,7 @@ public class ElementUtil {
         try {
             return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (TimeoutException e) {
-            System.out.println("Element not visible: " + locator);
+            LogUtils.error("Element not visible: " + locator);
             return null;
         }
     }
@@ -29,7 +29,7 @@ public class ElementUtil {
         try {
             return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
         } catch (TimeoutException e) {
-            System.out.println("Elements not visible: " + locator);
+            LogUtils.error("Elements not visible: " + locator);
             return java.util.Collections.emptyList();
         }
     }
@@ -38,7 +38,7 @@ public class ElementUtil {
         try {
             return wait.until(ExpectedConditions.elementToBeClickable(locator));
         } catch (TimeoutException e) {
-            System.out.println("Element not clickable: " + locator);
+            LogUtils.error("Element not clickable: " + locator);
             return null;
         }
     }
@@ -51,7 +51,7 @@ public class ElementUtil {
                 return true;
             }
         } catch (Exception e) {
-            System.out.println("Unable to click: " + locator + " - " + e.getMessage());
+            LogUtils.error("Unable to click: " + locator + " - " + e.getMessage());
         }
         return false;
     }
@@ -68,7 +68,7 @@ public class ElementUtil {
                 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
             }
         } catch (Exception e) {
-            System.out.println("Unable to scroll: " + locator + " - " + e.getMessage());
+            LogUtils.error("Unable to scroll: " + locator + " - " + e.getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ public class ElementUtil {
                 element.sendKeys(text);
             }
         } catch (Exception e) {
-            System.out.println("Unable to send keys to: " + locator + " - " + e.getMessage());
+            LogUtils.error("Unable to send keys to: " + locator + " - " + e.getMessage());
         }
     }
 }
