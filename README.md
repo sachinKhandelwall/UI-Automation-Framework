@@ -26,13 +26,17 @@ Verify that we have pagination options at bottom
 
 - src/main/java contains two packages, pages and utils
 - pages package contains 3 Classes, each class is responsible for their page objects, locators and methods to be utilized in the test cases.
-- utils contains ElementUtil  Class which consists of multiple methods that required to operate on driver for finding web elements, clicking etc., and PropertyUtils Class which is responsible for fetching the properties provided in the browser.propeties file in src/test/resources folder.
+- utils contains ElementUtil, PropertyUtil and LogUtils Class 
+- ElementUtil Class consists of multiple methods that required to operate on driver for finding, clicking and entering something on web elements
+- PropertyUtils Class is responsible for fetching the properties provided in the browser.properties file in src/test/resources folder
+- LogUtils Class is responsible for providing methods for logging  like info, error, debug, etc which utilizes the log4j2.xml configuration present in src/test/resources folder
 - src/test/java contains 2 packages base and tests
 - base package has BaseTest.java Class which contains @BeforeClass where the browser is set up and page objects are initialized
 - Browser property like for which browser we want to execute our test suite is fetched from the browser.properties file in src/test/resources folder
 - Cloudbees url to open after the driver initialization is also fetched from the browser.properties file in src/test/resources folder.
 - test package has CloudBeesTest.java class which is our main test class for running the testNg test cases
 - used allure reporting for showing all the steps of the test case in the report
+- logged all the steps of the test case using log4j
 - added all the test cases of a class to be run in testng.xml to execute in one go
 
 ## Run Instructions
