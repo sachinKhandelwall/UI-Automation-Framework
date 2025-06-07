@@ -1,12 +1,10 @@
-## 🔁 Retry Failed Test Cases & Attach Allure Screenshots on Failure (TestNG + Selenium)
+## 🔁 Retry Failed Tests & Attach Screenshot to Allure Report (Ultra Simplified with Inheritance)
 
-This setup retries failed test cases and captures screenshots on failure, attaching them to the Allure report.
-
-### ✅ Features
-- Retries failed tests (max 2 attempts)
-- Takes screenshot on final failure
-- Attaches screenshot to Allure report
-- Configured via TestNG `@Listeners`
+This setup:
+- Retries failed test cases
+- Captures screenshots on failure
+- Attaches to Allure
+- Uses clean inheritance (`extends BaseTest`)
 
 ---
 
@@ -15,18 +13,18 @@ This setup retries failed test cases and captures screenshots on failure, attach
 ```java
 package listeners;
 
+import base.BaseTest;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.*;
-import org.testng.*;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
 import org.testng.annotations.ITestAnnotation;
+import org.testng.IAnnotationTransformer;
 import utils.RetryAnalyzer;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 
-public class RetryOnFailureWithAllureScreenshotListener implements ITestListener, IAnnotationTransformer {
+import java.io.*;
+
+public class RetryOnFailureWithAllureScreenshotListener extends BaseTest implements ITestListener, IAnnotationTransformer {
 
     @Override
     public void transform(ITestAnnotation annotation, Class testClass,
@@ -36,13 +34,11 @@ public class RetryOnFailureWithAllureScreenshotListener implements ITestListener
 
     @Override
     public void onTestFailure(ITestResult result) {
-        Object testInstance = result.getInstance();
-        WebDriver driver = extractDriver(testInstance);
         if (driver != null) {
             try {
-                File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                try (FileInputStream fis = new FileInputStream(screenshot)) {
-                    Allure.addAttachment("Screenshot on Failure", fis);
+                File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                try (InputStream is = new FileInputStream(src)) {
+                    Allure.addAttachment("Failure Screenshot", is);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -50,7 +46,7 @@ public class RetryOnFailureWithAllureScreenshotListener implements ITestListener
         }
     }
 
-    // Optional overrides
+    // Optional: other unused methods
     @Override public void onTestStart(ITestResult result) {}
     @Override public void onTestSuccess(ITestResult result) {}
     @Override public void onTestSkipped(ITestResult result) {}
@@ -88,44 +84,15 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
 ---
 
-### 📁 `base/BaseTest.java`
-
-```java
-package base;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.*;
-
-public class BaseTest {
-    public WebDriver driver; // Must be public for listener access
-
-    @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver(); // initialize WebDriver
-    }
-
-    @AfterMerhod
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
-}
-```
-
----
-
 ### ⚙️ `testng.xml`
 
 ```xml
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="MySuite" verbose="1" parallel="false">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="CloudBeesSuite">
     <listeners>
         <listener class-name="listeners.RetryOnFailureWithAllureScreenshotListener"/>
     </listeners>
-
-    <test name="MyTests">
+    <test name="CloudBeesTests">
         <packages>
             <package name="your.test.package.name"/>
         </packages>
@@ -135,6 +102,4 @@ public class BaseTest {
 
 ---
 
-### ✅ Notes
-- Adjust `MAX_RETRY` in `RetryAnalyzer` if you need more/less retries.
-- Allure screenshots are visible under **Attachments** in the HTML report.
+
