@@ -6,7 +6,6 @@ This setup retries failed test cases and captures screenshots on failure, attach
 - Retries failed tests (max 2 attempts)
 - Takes screenshot on final failure
 - Attaches screenshot to Allure report
-- No `ThreadLocal` used
 - Configured via TestNG `@Listeners`
 
 ---
@@ -48,15 +47,6 @@ public class RetryOnFailureWithAllureScreenshotListener implements ITestListener
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private WebDriver extractDriver(Object testInstance) {
-        try {
-            return (WebDriver) testInstance.getClass().getField("driver").get(testInstance);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
@@ -115,7 +105,7 @@ public class BaseTest {
         driver = new ChromeDriver(); // initialize WebDriver
     }
 
-    @AfterMethod
+    @AfterMerhod
     public void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -145,19 +135,6 @@ public class BaseTest {
 
 ---
 
-### 🧩 Maven Dependency (`pom.xml`)
-
-```xml
-<dependency>
-    <groupId>io.qameta.allure</groupId>
-    <artifactId>allure-testng</artifactId>
-    <version>2.24.0</version>
-</dependency>
-```
-
----
-
 ### ✅ Notes
-- `driver` must be **public** in your test or base class for the listener to access it.
 - Adjust `MAX_RETRY` in `RetryAnalyzer` if you need more/less retries.
 - Allure screenshots are visible under **Attachments** in the HTML report.
