@@ -1,6 +1,6 @@
-# 🚀 CloudBees UI Automation Suite
+# 🚀 UI Automation Suite
 
-This repository (`cloudbeesUiAutomationAssignment`) contains an automated UI test suite built using **Selenium WebDriver**, **Java**, **TestNG**, and **Allure Reporting** to validate key user flows on the [CloudBees website](https://www.cloudbees.com/).
+This repository contains an automated UI test suite built using **Selenium WebDriver**, **Java**, **TestNG**, and **Allure Reporting** to validate key user flows on the [CloudBees website](https://www.cloudbees.com/).
 
 ---
 
