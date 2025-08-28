@@ -51,11 +51,14 @@ CloudbeesUiAutomation/
 ├── src/
 │   ├── main/
 │   │   └── java/
+│   │       ├── drivers/            # DriverFactory for WebDriver initialization
 │   │       ├── pages/              # Page Object Models for each webpage
-│   │       └── utils/              # Utility classes for logging, driver ops, etc.
+│   │       ├── utils/              # Utility classes: ScreenshotUtil, PropertyUtils, LogUtils, ElementUtil
+│   │       └── listeners/          # TestNG listeners & RetryTransformer
+│   │
 │   └── test/
 │       └── java/
-│           ├── base/               # BaseTest: WebDriver setup, teardown
+│           ├── base/               # BaseTest: WebDriver setup and teardown
 │           └── tests/              # Test classes (CloudBeesTest)
 │
 ├── src/test/resources/
@@ -63,28 +66,40 @@ CloudbeesUiAutomation/
 │   └── log4j2.xml                  # Log4j2 configuration
 │
 ├── pom.xml                         # Maven dependencies & plugin config
-└── testng.xml                      # TestNG suite file
+└── testng.xml                      # TestNG suite file with listeners and retry transformer
+
 ```
 
 ---
 
+
 ### 🔸 Key Components
+
+#### 🧩 `drivers/`
+- **DriverFactory**: Handles WebDriver creation for Chrome, Firefox, Edge, Safari
+- Ensures a single WebDriver instance per test class
 
 #### 🧩 `pages/`
 - Contains page classes like `HomePage`, `ProductsPage`, and `DocumentationPage`
 - Implements **Page Object Model** to encapsulate locators and interactions
 
 #### 🧰 `utils/`
-- `ElementUtil`: Common WebDriver operations (click, sendKeys, wait, scroll)
-- `PropertyUtil`: Reads values from `browser.properties`
-- `LogUtils`: Uses **Log4j2** for logging info, errors, and debug messages
+- **ElementUtil**: Common WebDriver operations (click, sendKeys, wait, scroll)
+- **PropertyUtils**: Reads values from `browser.properties`
+- **LogUtils**: Uses **Log4j2** for logging info, errors, and debug messages
+- **ScreenshotUtil**: Takes screenshots on failure and attaches them to Allure reports
 
 #### 🧪 `tests/`
-- `CloudBeesTest`: Contains the complete UI test flow for the CloudBees app
+- **CloudBeesTest**: Contains the complete UI test flow for the CloudBees app
 
 #### ⚙️ `base/`
-- `BaseTest`: Initializes WebDriver (based on `browser.properties`) and page objects
-  > Supports Chrome, Firefox, Edge, and Safari (using Selenium Manager)
+- **BaseTest**: Initializes WebDriver via **DriverFactory** and page objects
+  > Supports Chrome, Firefox, Edge, and Safari (using Selenium Manager)  
+  > Opens the application before each test and clears cookies after each test
+
+#### 🔔 `listeners/`
+- **TestListener**: Captures screenshots on test failure and attaches them to Allure
+- **RetryTransformer**: Implements global retry logic for failed test cases
 
 ---
 
@@ -94,7 +109,8 @@ CloudbeesUiAutomation/
 
 ```bash
 mvn clean test -DsuiteXmlFile=testng.xml
-```
+
+---
 
 ### 2️⃣ Generate Allure Report:
 

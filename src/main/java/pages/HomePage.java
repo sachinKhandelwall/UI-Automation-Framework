@@ -9,8 +9,8 @@ public class HomePage {
     private WebDriver driver;
     private ElementUtil util;
 
-    private final By productsLink = By.xpath("//button[contains(text(), 'Products')]");
-    private final By cdRoLink = By.xpath("//a[contains(text(), 'CloudBees CD/RO')]");
+    private final By productsLink = By.xpath("//button[normalize-space()='Product']");
+    private final By releaseOrchestration = By.xpath("//a[@aria-label='Release Orchestration'][normalize-space()='Release Orchestration']");
     private final By resourcesLink = By.xpath("//button[contains(text(), 'Resources')]");
     private final By documentationLink = By.xpath("//a[contains(text(), 'Documentation')]");
 
@@ -23,8 +23,8 @@ public class HomePage {
         util.click(productsLink);
     }
 
-    public void clickCdRo() {
-        util.click(cdRoLink);
+    public void clickReleaseOrchestration() {
+        util.click(releaseOrchestration);
     }
 
     public void clickResources() {

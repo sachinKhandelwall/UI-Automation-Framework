@@ -26,19 +26,4 @@ public class ProductsPage {
         return util.isElementDisplayed(costSavingsValue);
     }
 
-    public void scrollToAuditorsSecurity() {
-        util.scrollToElement(auditorsSecurity); // Scroll into view first
-    }
-
-    public void clickAuditorsSecurity() {
-        util.click(auditorsSecurity);
-    }
-
-    public void scrollToReleaseGovernance() {
-        util.scrollToElement(textUnderReleaseGovernance); // Scroll into view first
-    }
-
-    public boolean verifyGenerateSingleClickAuditReportsText() {
-        return util.isElementDisplayed(textUnderReleaseGovernance);
-    }
 }

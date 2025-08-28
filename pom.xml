@@ -15,23 +15,24 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <allure-maven.plugin.version>2.15.2</allure-maven.plugin.version>
-        <selenium-java.version>4.32.0</selenium-java.version>
-        <selenium-manager.version>4.32.0</selenium-manager.version>
+        <selenium-java.version>4.35.0</selenium-java.version>
+        <selenium-manager.version>4.35.0</selenium-manager.version>
         <testng.version>7.11.0</testng.version>
         <allure-testng.version>2.29.1</allure-testng.version>
         <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
         <suiteXmlFile>testng.xml</suiteXmlFile>
         <log4j-api.version>2.24.3</log4j-api.version>
         <log4j-core.version>2.24.3</log4j-core.version>
+        <commons-io.version>2.13.0</commons-io.version>
     </properties>
 
     <build>
         <plugins>
 
             <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>${maven.clean.plugin.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven.clean.plugin.version}</version>
             </plugin>
 
             <plugin>
@@ -87,7 +88,6 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -108,7 +108,12 @@
             <version>${log4j-api.version}</version>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
 
+    </dependencies>
 
 </project>

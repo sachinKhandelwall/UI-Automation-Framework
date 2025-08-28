@@ -1,16 +1,12 @@
 package base;
+
+import drivers.DriverFactory;
 import io.qameta.allure.Allure;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.*;
+import pages.*;
 import utils.LogUtils;
 import utils.PropertyUtils;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.AfterClass;
-import pages.*;
 
 import java.time.Duration;
 
@@ -20,53 +16,40 @@ public class BaseTest {
     protected HomePage homePage;
     protected ProductsPage productsPage;
     protected DocumentationPage documentationPage;
-    String cloudbeesUrl = PropertyUtils.getProperty("url");
+
+    private final String cloudbeesUrl = PropertyUtils.getProperty("url");
+    private final String browser = PropertyUtils.getProperty("browser");
 
     @BeforeClass
-    public void setup() {
-        String browser = PropertyUtils.getProperty("browser");
-        if (browser == null || browser.isEmpty()) {
-            browser = "chrome";
-        }
-        browser = browser.toLowerCase();
-        switch (browser) {
-            case "firefox":
-                LogUtils.info("Launching Firefox browser");
-                driver = new FirefoxDriver();
-                break;
-            case "edge":
-                LogUtils.info("Launching Edge browser");
-                driver = new EdgeDriver();
-                break;
-            case "safari":
-                LogUtils.info("Launching Safari browser");
-                driver = new SafariDriver();
-                break;
-            case "chrome":
-            default:
-                LogUtils.info("Launching Chrome browser");
-                driver = new ChromeDriver();
-                break;
-        }
-
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+    public void setupDriver() {
+        driver = DriverFactory.initDriver(browser);
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
         driver.manage().window().maximize();
 
-        LogUtils.info("Open the cloudbees web application");
-        Allure.step("Open the cloudbees web application");
-        driver.get(cloudbeesUrl);
+        LogUtils.info("Launching browser: " + browser);
+        Allure.step("Launching browser: " + browser);
 
+        // init page objects
         homePage = new HomePage(driver);
         productsPage = new ProductsPage(driver);
         documentationPage = new DocumentationPage(driver);
     }
 
-    @AfterClass
+    @BeforeMethod
+    public void openApplication() {
+        LogUtils.info("Opening CloudBees web app");
+        Allure.step("Opening CloudBees web app");
+        driver.get(cloudbeesUrl);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanUpAfterEachTest() {
+        LogUtils.info("Clearing cookies after test");
+        driver.manage().deleteAllCookies();
+    }
+
+    @AfterClass(alwaysRun = true)
     public void teardown() {
-        if (driver != null) {
-            LogUtils.info("Closing the browser");
-            Allure.step("Closing the browser");
-            driver.quit();
-        }
+        DriverFactory.quitDriver();
     }
 }

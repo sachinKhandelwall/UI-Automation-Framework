@@ -1,0 +1,33 @@
+# Maven target folder
+target/
+
+# IDE folders
+.idea/
+
+# Allure reports and results
+.allure/
+allure-results/
+allure-report/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*.old
+
+# IntelliJ project files
+*.iml
+out/
+
+# Eclipse project files
+.project
+.classpath
+.settings/

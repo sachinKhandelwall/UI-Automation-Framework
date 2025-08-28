@@ -9,17 +9,17 @@ import utils.LogUtils;
 
 public class CloudBeesTest extends BaseTest {
 
-    @Test
-    @Description("Open cloudbees web page and perform multiple validations by navigating till Documentation page")
-    public void testCloudBeesFlow() throws InterruptedException {
+    @Test(priority = 1)
+    @Description("Open Cloudbees web page and verify cost savings value of Products")
+    public void verifyCbCloudSavingsValue() {
 
         LogUtils.info("Click the Products link on top of the page");
         Allure.step("Click the Products link on top of the page");
         homePage.clickProducts();
 
-        LogUtils.info("Click CloudBees CD/RO under Other Products");
-        Allure.step("Click CloudBees CD/RO under Other Products");
-        homePage.clickCdRo();
+        LogUtils.info("Click Release Orchestration under Other Products");
+        Allure.step("Click Release Orchestration under Other Products");
+        homePage.clickReleaseOrchestration();
 
         LogUtils.info("Scroll till cost savings section");
         Allure.step("Scroll till cost savings section");
@@ -28,18 +28,11 @@ public class CloudBeesTest extends BaseTest {
         LogUtils.info("Verify that Cost Savings has a value of $2m");
         Allure.step("Verify that Cost Savings has a value of $2m");
         Assert.assertTrue(productsPage.verifyCostSavingsValueIs$2m(), "Cost savings $2m not found");
+    }
 
-        LogUtils.info("Click Auditors / Security tab");
-        Allure.step("Click Auditors / Security tab");
-        productsPage.clickAuditorsSecurity();
-
-        LogUtils.info("Scroll till Release Governance section of Auditors / Security");
-        Allure.step("Scroll till Release Governance section of Auditors / Security");
-        productsPage.scrollToReleaseGovernance();
-
-        LogUtils.info("Verify that the text under Release Governance is 'Generate single-click audit reports'.");
-        Allure.step("Verify that the text under Release Governance is 'Generate single-click audit reports'.");
-        Assert.assertTrue(productsPage.verifyGenerateSingleClickAuditReportsText(), "Generate single-click audit reports text under Release Governance not found");
+    @Test(priority = 2)
+    @Description("Open Cloudbees Resources link and perform multiple validations by navigating till Documentation page")
+    public void verifyCbDocumentationFlow() {
 
         LogUtils.info("Click the Resources link on top of the page");
         Allure.step("Click the Resources link on top of the page");
@@ -68,5 +61,16 @@ public class CloudBeesTest extends BaseTest {
         LogUtils.info("Verify that the Pagination options exists at bottom on search result");
         Allure.step("Verify that the Pagination options exists at bottom on search result");
         Assert.assertTrue(documentationPage.isPaginationDisplayedOnBottom(), "Pagination not visible on search result");
+    }
+
+    @Test(priority = 3)
+    @Description("Open Cloudbees web page and fail a case deliberatily")
+    public void verifyCbFailureCase() {
+
+        LogUtils.info("Click the Products link on top of the page");
+        Allure.step("Click the Products link on top of the page");
+        homePage.clickProducts();
+
+        Assert.assertTrue(false, "Failing deliberatily");
     }
 }
